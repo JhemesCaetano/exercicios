@@ -22,18 +22,19 @@ while opcao != 5:
     if opcao == 1:
         somar = valor_1 + valor_2
         print(f'A soma dos valores {valor_1} + {valor_2}, é ="{somar}"')
-    if opcao == 2:
+    elif opcao == 2:
         multiplicar = valor_1 * valor_2
         print(f'A multiplicação dos valores {valor_1} X {valor_2}, é ="{multiplicar}"')
-    if opcao == 3:
+    elif opcao == 3:
         if valor_1 > valor_2:
             print(f'O primeiro valor "{valor_1}" é o maior entre eles ')
         else:
             print(f'O segundo valor "{valor_2}" é o maior entre eles ')
-    if opcao == 4:
+    elif opcao == 4:
         valor_1 = int(input('Digite o novo primeiro valor:'))
         valor_2 = int(input('Digite o novo segundo valor:'))
-
+    else:
+        print('Opção invalida, tente novamente...')
 print("até mais...")
 
 
