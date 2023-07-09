@@ -23,14 +23,7 @@
             Só é permitido criar um usuario por CPF, caso contrario retorna um erro
         Criação de Contas:
             Essa função  cria uma conta com base nos CPF's cadastrados, sendo possivel criar quantas
-            contas quise.
-        Listar Contas:
-            Essa função listas as contas criadas por CPF's:
-
-        
-        
-
-        
+            contas quise.      
 
 '''
 
@@ -85,18 +78,6 @@ def criar_conta(cpf):
     contas.append(nova_conta)
     print(f"Conta {numero_conta} criada para o usuário {usuario_filtrado[0]['Nome']}.")
 
-def listar_contas_usuario(cpf):
-    # Filtra a lista de contas pelo CPF do usuário
-    contas_usuario = list(filter(lambda conta: conta['Usuário']['CPF'] == cpf, contas))
-
-    # Verifica se o usuário possui contas
-    if not contas_usuario:
-        print("Usuário não possui contas cadastradas.")
-        return
-
-    # Exibe as contas do usuário
-    for conta in contas_usuario:
-        print(f"Conta: {conta['Número da Conta']}, Agência: {conta['Agência']}")
 
 def extrato(saldo, /, *, saques, depositos, ):
     #Verifica o seus ultimos saques, depósitos e o seu saldo
