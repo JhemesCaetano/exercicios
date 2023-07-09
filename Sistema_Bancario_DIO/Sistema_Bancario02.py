@@ -185,4 +185,3 @@ while True:
         cpf = str(input('Por favor informe o CPF de cadastro da conta:'))
     elif opcao == 7:
        break
-
