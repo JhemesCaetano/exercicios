@@ -23,14 +23,6 @@
             Só é permitido criar um usuario por CPF, caso contrario retorna um erro
         Criação de Contas:
             Essa função  cria uma conta com base nos CPF's cadastrados, sendo possivel criar quantas
-            contas quise.
-        Listar Contas:
-            Essa função listas as contas criadas por CPF's:
-
-        
-        
-
-        
 
 '''
 
