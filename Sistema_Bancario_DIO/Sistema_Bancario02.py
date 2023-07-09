@@ -85,19 +85,6 @@ def criar_conta(cpf):
     contas.append(nova_conta)
     print(f"Conta {numero_conta} criada para o usuário {usuario_filtrado[0]['Nome']}.")
 
-def listar_contas_usuario(cpf):
-    # Filtra a lista de contas pelo CPF do usuário
-    contas_usuario = list(filter(lambda conta: conta['Usuário']['CPF'] == cpf, contas))
-
-    # Verifica se o usuário possui contas
-    if not contas_usuario:
-        print("Usuário não possui contas cadastradas.")
-        return
-
-    # Exibe as contas do usuário
-    for conta in contas_usuario:
-        print(f"Conta: {conta['Número da Conta']}, Agência: {conta['Agência']}")
-
 def extrato(saldo, /, *, saques, depositos, ):
     #Verifica o seus ultimos saques, depósitos e o seu saldo
     print(f"==========EXTRATO==========\n"
@@ -139,8 +126,7 @@ while True:
             3-Depositar
             4-Criar usuário
             5-Criar Conta
-            6-listar contas
-            7-Sair
+            6-Sair
         ''')
     # Escolhe uma das opções do Menu:
     try:
@@ -176,9 +162,5 @@ while True:
         criar_conta(
             input(str('Digite o numero do seu CPF:'))
         )
-
     elif opcao == 6:
-        listar_contas_usuario()
-
-    elif opcao == 7:
         break
