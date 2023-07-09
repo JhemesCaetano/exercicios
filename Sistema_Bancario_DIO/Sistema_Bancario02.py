@@ -18,18 +18,27 @@
             Os valores devem ser exibidos utilizando o formato R$xxx.xx
             exemplo:
             1500.45 = R$1500.45
-        Criação de contas:
-        
-        
         Criação de usuário:
+            Essa função cria um usuario com Nome, Data de Nascimento, Endereço e CPF.
+            Só é permitido criar um usuario por CPF, caso contrario retorna um erro
+        Criação de Contas:
+            Essa função  cria uma conta com base nos CPF's cadastrados, sendo possivel criar quantas
+            contas quise.
+        Listar Contas:
+            Essa função listas as contas criadas por CPF's:
+
+        
+        
+
         
 
 '''
+
 saldo = 0
 depositos = []
 saques = []
 opcao = 0
-qtd_saque_dia = 3
+QTD_SAQUE_DIA = 3
 usuarios = []
 contas = []
 
@@ -89,22 +98,16 @@ def listar_contas_usuario(cpf):
     for conta in contas_usuario:
         print(f"Conta: {conta['Número da Conta']}, Agência: {conta['Agência']}")
 
-def extrato(saldo= saldo, saques= saques, depositos= depositos):
+def extrato(saldo, /, *, saques, depositos, ):
     #Verifica o seus ultimos saques, depósitos e o seu saldo
-    print(f'''
-        Seus Ultimos Depósitos Foram: {depositos}
-        
-        Seus Ultimos Saques Foram: {saques}
-        
-        Seu Saldo Atual é: (R$ {saldo:.2f})''')
+    print(f"==========EXTRATO==========\n"
+          f"ULTIMOS DEPOSITOS:{depositos}\n"
+          f"ULTIMOS SAQUES:{saques}\n"
+          f"\n"
+          f"SALDO ATUAL:R${saldo:.2f}\n"
+          f"{'='*28}")
 
-def sacar(saldo= saldo, saques= saques, qtd_saque_dia= qtd_saque_dia):
-    print('''Sistema De Saque:
-    Vocẽ pode efetuar até 3 saques diarios , com um limite de  R$500.0 cada''')
-    try:
-        saque = float(input("Por Favor Digite o Valor a ser Sacado:"))
-    except ValueError:
-        print('Por Favor Digite um Valor Valido...')
+def sacar(*,saque, saldo, saques, qtd_saque_dia):
     if saldo >= saque and saque <= 500:
         saldo -= saque
         saques.append(f'R$ {saque:.2f}')
@@ -118,7 +121,7 @@ def sacar(saldo= saldo, saques= saques, qtd_saque_dia= qtd_saque_dia):
         print('Desculpe mas Vocẽ exedeu a quantidade de saque permitido para o dia de hoje')
     else:
         print(F'Você ainda tem "{qtd_saque_dia}" saques disponivel durante o dia de hoje')
-    return extrato()
+    return saldo, saques
 def depositar(saldo, depositos, valor, /):
     if valor > 0:
         saldo += valor
@@ -139,19 +142,29 @@ while True:
             6-listar contas
             7-Sair
         ''')
+    # Escolhe uma das opções do Menu:
     try:
         opcao = int(input('Por favor Digite o Número da opção desejada:'))
         if opcao <= 0 or opcao > 8:
             print('Por favor Digite uma opção valida')
     except ValueError:
         print('Por favor Digite uma opção valida')
+    # Chama a função Extrato:
     if opcao == 1:
-        extrato()
+       saldo = extrato(saldo, saques= saques, depositos= depositos)
+    # Chama a função Sacar:3
     elif opcao == 2:
-        sacar()
+        print('''Sistema De Saque:
+           Vocẽ pode efetuar até 3 saques diarios , com um limite de  R$500.0 cada''')
+        try:
+            saque = float(input("Por Favor Digite o Valor a ser Sacado:"))
+        except ValueError:
+            print('Por Favor Digite um Valor Valido...')
+
+        saldo, saques = sacar(saque= saque, saldo= saldo, saques= saques, qtd_saque_dia= QTD_SAQUE_DIA,)
     elif opcao == 3:
         valor = float(input('Digite o Valor a ser Depósitado:'))
-        saldo, depositos = depositar(saldo, depositos, valor)
+        saldo, depositos, = depositar(saldo, depositos, valor)
     elif opcao == 4:
         criar_usuario(
             input(str('Informe o seu Nome:')),
