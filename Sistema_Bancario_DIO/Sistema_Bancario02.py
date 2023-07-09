@@ -23,8 +23,15 @@
             Só é permitido criar um usuario por CPF, caso contrario retorna um erro
         Criação de Contas:
             Essa função  cria uma conta com base nos CPF's cadastrados, sendo possivel criar quantas
-        listar_contas_por_cpf:
-            lista as contas criadas apartir do CPF INFORMADO
+            contas quise.
+        Listar Contas:
+            Essa função listas as contas criadas por CPF's:
+
+        
+        
+
+        
+
 '''
 
 saldo = 0
@@ -35,7 +42,7 @@ QTD_SAQUE_DIA = 3
 usuarios = []
 contas = []
 
-# função para criar um usuario a partir do cpf informado
+
 def criar_usuario(nome, data_nascimento, endereco, cpf):
     # Verifica se o CPF já existe na lista
     for usuario in usuarios:
@@ -55,7 +62,6 @@ def criar_usuario(nome, data_nascimento, endereco, cpf):
     usuarios.append(novo_usuario)
     print(f"Usuário {nome} adicionado com sucesso.")
 
-# função para criar contas a partir do cpf do usuario
 def criar_conta(cpf):
     # Filtra a lista de usuários pelo CPF
     usuario_filtrado = list(filter(lambda usuario: usuario['CPF'] == cpf, usuarios))
@@ -79,24 +85,19 @@ def criar_conta(cpf):
     contas.append(nova_conta)
     print(f"Conta {numero_conta} criada para o usuário {usuario_filtrado[0]['Nome']}.")
 
-# função para listar as contas por cpf
-def listar_contas_por_cpf(cpf):
+def listar_contas_usuario(cpf):
     # Filtra a lista de contas pelo CPF do usuário
-    contas_filtradas = list(filter(lambda conta: conta['Usuário']['CPF'] == cpf, contas))
+    contas_usuario = list(filter(lambda conta: conta['Usuário']['CPF'] == cpf, contas))
 
-    # Verifica se existem contas associadas ao CPF
-    if not contas_filtradas:
-        print("Nenhuma conta encontrada para o CPF informado.")
+    # Verifica se o usuário possui contas
+    if not contas_usuario:
+        print("Usuário não possui contas cadastradas.")
         return
 
-    # Imprime as informações das contas encontradas
-    for conta in contas_filtradas:
-        print(f"Agência: {conta['Agência']}")
-        print(f"Número da Conta: {conta['Número da Conta']}")
-        print(f"Usuário: {conta['Usuário']['Nome']}")
-        print("--------------------")
+    # Exibe as contas do usuário
+    for conta in contas_usuario:
+        print(f"Conta: {conta['Número da Conta']}, Agência: {conta['Agência']}")
 
-# função para listar as ultimas movimentações da conta e o saldo atual
 def extrato(saldo, /, *, saques, depositos, ):
     #Verifica o seus ultimos saques, depósitos e o seu saldo
     print(f"==========EXTRATO==========\n"
@@ -105,7 +106,7 @@ def extrato(saldo, /, *, saques, depositos, ):
           f"\n"
           f"SALDO ATUAL:R${saldo:.2f}\n"
           f"{'='*28}")
-# função para sacar valores do saldo
+
 def sacar(*,saque, saldo, saques, qtd_saque_dia):
     if saldo >= saque and saque <= 500:
         saldo -= saque
@@ -121,7 +122,6 @@ def sacar(*,saque, saldo, saques, qtd_saque_dia):
     else:
         print(F'Você ainda tem "{qtd_saque_dia}" saques disponivel durante o dia de hoje')
     return saldo, saques
-# função para depositar valores ao saldo
 def depositar(saldo, depositos, valor, /):
     if valor > 0:
         saldo += valor
@@ -131,7 +131,6 @@ def depositar(saldo, depositos, valor, /):
         print('Operação falhou! O valor informado é invalido.')
     return saldo, depositos
 
-# menu
 while True:
     print(f'''Bem vindo ao Menu do Banco
         Opções:
@@ -140,7 +139,7 @@ while True:
             3-Depositar
             4-Criar usuário
             5-Criar Conta
-            6-Listar Contas
+            6-listar contas
             7-Sair
         ''')
     # Escolhe uma das opções do Menu:
@@ -150,7 +149,7 @@ while True:
             print('Por favor Digite uma opção valida')
     except ValueError:
         print('Por favor Digite uma opção valida')
-   # Chama a função extrato
+    # Chama a função Extrato:
     if opcao == 1:
        saldo = extrato(saldo, saques= saques, depositos= depositos)
     # Chama a função Sacar:3
@@ -163,11 +162,9 @@ while True:
             print('Por Favor Digite um Valor Valido...')
 
         saldo, saques = sacar(saque= saque, saldo= saldo, saques= saques, qtd_saque_dia= QTD_SAQUE_DIA,)
-    # Chama a função deposito
     elif opcao == 3:
         valor = float(input('Digite o Valor a ser Depósitado:'))
         saldo, depositos, = depositar(saldo, depositos, valor)
-    # chama a função criar usuario
     elif opcao == 4:
         criar_usuario(
             input(str('Informe o seu Nome:')),
@@ -175,14 +172,13 @@ while True:
             input(str('Informe o seu Endereço; Cidade, Bairro, Rua, Número:')),
             input((str('CPF:')))
         )
-    # Chama a função criar conta
     elif opcao == 5:
         criar_conta(
             input(str('Digite o numero do seu CPF:'))
         )
-    # Chama a função listar contas
-    elif opcao == 6:
-        cpf = str(input('Por favor informe o CPF de cadastro da conta:'))
-    elif opcao == 7:
-       break
 
+    elif opcao == 6:
+        listar_contas_usuario()
+
+    elif opcao == 7:
+        break
